@@ -114,7 +114,7 @@ async def callbacks_num_change_fab(
                                                  f"Твой счёт: {user_data[callback.from_user.id]}\n"
                                                  f"За {user_count[callback.from_user.id]} игр\n")
 
-        sleep(2)
+        sleep(1.5)
         with suppress(TelegramBadRequest):
             await callback.message.edit_text("Выбери:", reply_markup=get_keyboard_fab())
 
