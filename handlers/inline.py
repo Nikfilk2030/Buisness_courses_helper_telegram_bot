@@ -33,6 +33,8 @@ async def inline_query(query):
     else:
         data = user_data[query.from_user.id]
         count = user_count[query.from_user.id]
+        if count == 0:
+            count = 1
         results = [
             InlineQueryResultArticle(
                 id="1",
@@ -103,12 +105,12 @@ async def callbacks_num_change_fab(
             user_data[callback.from_user.id] += 1
 
             with suppress(TelegramBadRequest):
-                await callback.message.edit_text(f"Ты угадал!\n"
+                await callback.message.edit_text(f"{callback.from_user.username}, ты угадал!\n"
                                                  f"Твой счёт: {user_data[callback.from_user.id]}\n"
                                                  f"За {user_count[callback.from_user.id]} игр\n")
         else:
             with suppress(TelegramBadRequest):
-                await callback.message.edit_text(f"Ты не угадал(\n"
+                await callback.message.edit_text(f"{callback.from_user.username}, ты не угадал(\n"
                                                  f"Твой счёт: {user_data[callback.from_user.id]}\n"
                                                  f"За {user_count[callback.from_user.id]} игр\n")
 
@@ -121,7 +123,7 @@ async def callbacks_num_change_fab(
         with suppress(TelegramBadRequest):
             data = user_data[callback.from_user.id]
             count = user_count[callback.from_user.id]
-            await callback.message.edit_text(f"Моя точность: "
+            await callback.message.edit_text(f"{callback.from_user.username}, твоя точность: "
                                              f"{data / count * 100}%\n"
                                              f"Игр сыграно: {count}\n"
                                              f"Побед: {data}\n"
